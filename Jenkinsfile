@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('vsc') {
             steps {
-                 git url 'https://github.com/practice-cicd-23/game-of-life.git',
-            branch 'declrative'
+                 git url: 'https://github.com/practice-cicd-23/game-of-life.git',
+                     branch: 'declrative'
             }
         
         }
@@ -15,9 +15,9 @@ pipeline {
         }
         stage('post build') {
             steps {
-                archiveArtifacts artifacts '**/target/gameoflife.war',
-                                 allowEmptyArchive true
-                junit testResults '**/surefire-reports/TEST-*.xml'
+                archiveArtifacts artifacts: '**/target/gameoflife.war',
+                                 allowEmptyArchive: true
+                junit testResults: '**/surefire-reports/TEST-*.xml'
             }
         }
     }
