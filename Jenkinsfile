@@ -1,6 +1,9 @@
 pipeline {
     agent { label 'MAVEN_JDK_8' }
-    triggers { pollSCM ('H/30 * * * *') }  
+    triggers { pollSCM ('H/30 * * * *') }
+    parameters {
+        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'MAVEN GOAL')
+    } 
     stages {
         stage('vsc') {
             steps {
@@ -11,7 +14,10 @@ pipeline {
         }
         stage('package') {
             steps {
-                sh 'export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH" && mvn package'
+                sh 'export PATH="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin:$PATH"'
+            }
+            steps {
+                sh "mvn ${params.MAVEN_GOAL}"
             }
         }
         stage('post build') {
